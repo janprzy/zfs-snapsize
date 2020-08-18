@@ -11,7 +11,7 @@ do not acutally depend on one another. For instance, a snapshot can be
 deleted on one dataset but kept on a descendant of that dataset - that
 is not possible with datasets.
 
-The "USED" space of a ZFS dataset is the space used _only_ by that
+The "used" space of a ZFS dataset is the space used _only_ by that
 dataset, and consequently, the space that will be freed up when deleting
 it. Since snapshots don't contain or own their siblings on subordinate
 datasets, their "used space" does not include the space used by the
