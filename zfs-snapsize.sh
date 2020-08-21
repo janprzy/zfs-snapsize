@@ -2,6 +2,11 @@
 fs=$1
 human_readable=$2 # TODO: Proper CLI flag
 
+if [ -z $human_readable ]
+then
+	human_readable=1;
+fi
+
 
 # Format a number with an SI prefix
 # $1: The number
