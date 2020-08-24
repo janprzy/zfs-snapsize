@@ -62,8 +62,8 @@ do
 
 	if [ $human_readable -eq 1 ]
 	then
-		echo "$i" "$(si-format $size 3)"
+		printf "%-40s %5s\n" $i $(si-format $size 3)
 	else
-		echo "$i" $size
+		printf "%-40s %10s\n" $i $size
 	fi
 done
