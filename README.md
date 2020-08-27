@@ -1,27 +1,24 @@
 zfs-snapsize
 ============
-By default, it is not easily possible to recursively get the total size
-of a ZFS snapshot across all datasets. Instead, the size of a snapshot
-can only be read for individual datasets. This script simply adds up all
-these numbers to convienently display the total size of the snapshot.
+By default, it is not easily possible to recursively find out the total
+space used by a ZFS snapshot. After taking a recursive snapshot, the
+used space can be displayed on each individual filesystem, but not all at
+once.
 
 The reason for this odd behaviour is simple: While snapshots _can_ be
-recursively created and deleted, they, unlike the datasets themselves,
-do not acutally depend on one another. For instance, a snapshot can be
-deleted on one dataset but kept on a descendant of that dataset - that
-is not possible with datasets.
+recursively created and deleted, they, unlike the filesystems
+themselves, do not acutally depend on one another. Technically, what
+looks like one big snapshot across a ZFS hierachy, is instead a
+collection of independant snapshots with the same name.
+For instance, a snapshot can be deleted on one dataset but kept on a
+descendant - that is not possible with datasets themselves.
 
-Only the space unique to a dataset is marked as "used", the rest is
-lumped into "refer". Consequently, only the "used" space will be freed
-up when deleting the dataset. In the case of normal datasets, whose
-children can not exist without the parent, the "used" column contains
-the space used by all children. However, this is not the case with
-snapshot. Since snapshots don't contain or own their siblings on
-subordinate datasets, their "used space" does not include the space
-used by the apparent descendants.
+Consequently, the "used" space of a snapshot does not include the space
+used by its incarnations on descendant filesystems. A snapshot, unlike a
+filesystem, does not own or contain its seeming descendants.
 
 Command Usage
---------------
+-------------
     zfs-snapsize.sh [flags] filesystem
     -h: Human-readable output - SI unit prefixes
     -u: Display this screen
