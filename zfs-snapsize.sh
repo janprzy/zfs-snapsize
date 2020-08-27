@@ -1,13 +1,42 @@
 #!/bin/sh
-fs=$1
-human_readable=$2 # TODO: Proper CLI flag
 
-if [ -z $human_readable ]
+# 1 - Input parsing =================================================================================================================
+human_readable=0
+args=`getopt hu $*`
+if [ $? != 0 ]
 then
-	human_readable=1;
+   echo 'Usage: zfs-snapsize.sh [flags] filesystem'
+   echo 'zfs-snapsize.sh -u to display usage information'
+   exit 2
+fi
+set -- $args
+
+for i
+do
+   case "$i"
+   in
+           -h)
+		   human_readable=1
+                   shift;;
+           -u)
+		   echo 'Usage: zfs-snapsize.sh [flags] filesystem'
+		   echo '-h: Human-readable output - SI unit prefixes'
+		   echo '-u: Display this screen'
+		   exit
+                   shift;;
+           --)
+                   shift; break;;
+   esac
+done
+
+
+fs=$1 # Filesystem or snapshot
+if [ -z $fs ]; then
+	echo "You need to enter a file system!"
+	exit 2
 fi
 
-
+# 2 - Functions =====================================================================================================================
 # Format a number with an SI prefix
 # $1: The number
 # $2: Amount of significant digits
@@ -31,6 +60,7 @@ si-format()
         	} '
 }
 
+# 3 - Procedural logic ==============================================================================================================
 # List all snapshots at the root level. If $fs already is a snapshot, that will be the entire list.
 # $pool will be set to the parent of all snapshots.
 echo $fs | grep @ > /dev/null # Returns 0 if it found something, i.e. if $fs contains an @

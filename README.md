@@ -19,3 +19,9 @@ the space used by all children. However, this is not the case with
 snapshot. Since snapshots don't contain or own their siblings on
 subordinate datasets, their "used space" does not include the space
 used by the apparent descendants.
+
+Commands usage
+--------------
+    zfs-snapsize.sh [flags] filesystem
+    -h: Human-readable output - SI unit prefixes
+    -u: Display this screen
