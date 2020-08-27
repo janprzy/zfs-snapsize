@@ -55,7 +55,7 @@ si-format()
 	#
 	awk -v n="$1" -v s="$2" '
         	BEGIN { f=int( (log(n)/log(10)) / 3)
-        	printf("%." s "g"), n/(1000^f)
+        	printf("%." s "g"), n/(1024^f)
         	printf substr("BKMGTP", f+1, 1) "\n"
         	} '
 }
