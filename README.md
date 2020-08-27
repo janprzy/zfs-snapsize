@@ -17,6 +17,9 @@ Consequently, the "used" space of a snapshot does not include the space
 used by its incarnations on descendant filesystems. A snapshot, unlike a
 filesystem, does not own or contain its seeming descendants.
 
+This script aims to solve the described issue by simply adding up the
+space used by all incarnations of a snapshots, giving us the total size.
+
 Command Usage
 -------------
     zfs-snapsize.sh [flags] filesystem
