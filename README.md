@@ -24,7 +24,8 @@ Command Usage
 -------------
     zfs-snapsize.sh [flags] filesystem
     -h: Human-readable output - SI unit prefixes
-    -u: Display this screen
+    -t: Display the total size of *all* snapshots combined
+    -u: Display the help screen
 
 Example output
 --------------

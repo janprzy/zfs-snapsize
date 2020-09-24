@@ -2,7 +2,8 @@
 
 # 1 - Input parsing =================================================================================================================
 human_readable=0
-args=`getopt hu $*`
+total_size=0
+args=`getopt hut $*`
 if [ $? != 0 ]
 then
    echo 'Usage: zfs-snapsize.sh [flags] filesystem'
@@ -18,9 +19,13 @@ do
            -h)
 		   human_readable=1
                    shift;;
+           -t)
+		   total_size=1
+                   shift;;
            -u)
 		   echo 'Usage: zfs-snapsize.sh [flags] filesystem'
 		   echo '-h: Human-readable output - SI unit prefixes'
+		   echo '-t: Display the total size of *all* snapshots combined'
 		   echo '-u: Display this screen'
 		   exit
                    shift;;
@@ -35,6 +40,7 @@ if [ -z $fs ]; then
 	echo "You need to enter a file system!"
 	exit 2
 fi
+
 
 # 2 - Functions =====================================================================================================================
 # Format a number with an SI prefix
@@ -60,6 +66,7 @@ si-format()
         	} '
 }
 
+
 # 3 - Procedural logic ==============================================================================================================
 # List all snapshots at the root level. If $fs already is a snapshot, that will be the entire list.
 # $pool will be set to the parent of all snapshots.
@@ -77,6 +84,8 @@ fi
 # 'sed' cuts the parts after the @ off, in case a snapshot was provided
 snaplist_full="$(zfs list -Hrp -t snap -o name,used "$pool")"
 
+all_sizes=0 # This will later be used to calculate the total size of *all* snapshots (see option '-t')
+
 # Iterate over the snapshots and calculate their respective size
 for i in $snaplist_root
 do
@@ -90,10 +99,29 @@ do
 	# 5. Add the numbers to obtain the combined size
 	size=$(echo "$snaplist_full" | grep -G "$(echo "$i" | sed "s~$pool@~$pool\.\*@~g")" | rev | cut -wf1 | rev | paste -sd+ - | bc)
 
-	if [ $human_readable -eq 1 ]
+	if [ $human_readable -eq 1 ] 
 	then
 		printf "%-40s %5s\n" $i $(si-format $size 3)
 	else
 		printf "%-40s %10s\n" $i $size
 	fi
+
+	if [ $total_size -eq 1 ]
+	then
+		all_sizes="$all_sizes + $size"; # Concatenate the individual sizes with + signs so 'bc' can parse them
+	fi
 done
+
+
+if [ $total_size -eq 1 ]
+then
+	total=$(echo $all_sizes | bc) # Calculate the sum
+
+	if [ $human_readable -eq 1 ] 
+	then
+		printf "%5s" $(si-format $total 3)
+	else
+		printf "%10s" $total
+	fi
+	printf " total\n"
+fi
