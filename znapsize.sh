@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# zfs-snapsize.sh - Copyright (c) 2020, Jan Przybylak
+# znapsize.sh - Copyright (c) 2020, Jan Przybylak
 # http://github.com/janprzy/zfs-snapsize
 #
-# This software is licensed under a BSD 3-Clause License.
+# This software is licensed under a BSD-3-Clause License.
 
 # 1 - Input parsing =================================================================================================================
 human_readable=0
