@@ -24,13 +24,13 @@ do
            -h)
 		   human_readable=1
                    shift;;
-           -t)
-		   total_size=1
-                   shift;;
+           #-t)
+		#   total_size=1
+                 #  shift;;
            -u)
 		   echo 'Usage: zfs-snapsize.sh [flags] filesystem'
 		   echo '-h: Human-readable output - SI unit prefixes'
-		   echo '-t: Display the total size of *all* snapshots combined'
+		   #echo '-t: Display the total size of *all* snapshots combined'
 		   echo '-u: Display this screen'
 		   exit
                    shift;;

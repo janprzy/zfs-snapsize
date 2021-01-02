@@ -19,12 +19,16 @@ filesystem, does not own or contain its seeming descendants.
 
 This script aims to solve the described issue by simply adding up the
 space used by all incarnations of a snapshot, giving us the total size.
+This will be the unique, deduplicated size of a snapshot, i.e. the space
+that is freed up when deleting it. Adding up the sizes this script
+returns for individual snapshots will *not* result in the space used by
+_all_ snapshots, that information is stored in the `usedbysnapshots`
+property.
 
 Command Usage
 -------------
     zfs-snapsize.sh [flags] filesystem
     -h: Human-readable output - SI unit prefixes
-    -t: Display the total size of *all* snapshots combined
     -u: Display the help screen
 
 Example output
