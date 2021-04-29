@@ -1,6 +1,6 @@
 zfs-snapsize
 ============
-By default, it is not easily possible to recursively find out the total
+By default, it is not easily possible to recursively determine the total
 space used by a ZFS snapshot. After taking a recursive snapshot, the
 used space can be displayed on each individual filesystem, but not all at
 once.
