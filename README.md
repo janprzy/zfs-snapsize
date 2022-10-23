@@ -27,7 +27,7 @@ property.
 
 Command Usage
 -------------
-    zfs-snapsize.sh [flags] filesystem
+    znapsize.sh [flags] filesystem
     -h: Human-readable output - SI unit prefixes
     -u: Display the help screen
 
@@ -41,3 +41,9 @@ Example output
     zroot@2020-08-22_10-23-44                21.5M
     zroot@2020-08-23_00-00-00                13.7M
     zroot@2020-08-27_08-19-10                 199M
+
+Installation
+-----------
+`install.sh` installs `znapsize.sh` to `/usr/local/bin/znapsize` and sets
+the appropriate permissions (+x to make it executable). You will be asked
+to overwrite if it already exists.
